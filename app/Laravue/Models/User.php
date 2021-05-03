@@ -56,6 +56,22 @@ class User extends Authenticatable
     protected $guard_name = 'api';
 
     /**
+     * Validation rules.
+     *
+     * @var array
+     */
+    public static $rules = [
+        'name'                  => 'required|unique:users,name',
+        'email'                 => 'required|email|unique:users,email|regex:/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/',
+        'roles'                 =>  [
+                                        'required',
+                                        'array',
+                                    ],
+        'password'              => 'min:6|required',
+        'confirmPassword'       => 'same:password',
+    ];
+
+    /**
      * @inheritdoc
      */
     public function getJWTIdentifier()
